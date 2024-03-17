@@ -22,7 +22,7 @@ require('./src/configs/dbConnection') // yukarıda olması mantıklı, DB bağla
 //* $ npm i cookie-session
 /* ------------------------------------------------------- */
 const session = require('cookie-session')
-app.use(session({
+app.use(session({ 
     secret: process.env.SECRET_KEY,        //şifreleme anahtarı
     //maxAge: 1000 * 60 * 60 * 24 * 3 //miliseconds cinsnden olduğu için (3 gün oldu şimdi)
 }))
@@ -67,4 +67,4 @@ app.use(require('./src/middlewares/errorHandler')) // aşağıda olması önemli
 app.listen(PORT, () => { console.log('Server running on http://' + HOST + ':' + PORT); })
 
 
-require('./src/sync')() //bir kere çalıştırınca sonra yoruma alıyoruz
+//require('./src/sync')() //bir kere çalıştırınca sonra yoruma alıyoruz 
