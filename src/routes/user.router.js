@@ -8,6 +8,8 @@ const User = require("../controllers/user.controller")
 
 // User:
 
+// "/user"
+
 // login logout
 router.post('/login',User.login)
 router.all('/logout',User.logout)

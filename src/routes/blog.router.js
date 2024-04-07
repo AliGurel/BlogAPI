@@ -8,6 +8,8 @@ const router = require('express').Router()
 
 const { BlogCategory, BlogPost } = require('../controllers/blog.controller')
 
+// "/blog"
+
 //BlogCategory
 router.route('/categories')
     .get(BlogCategory.list)

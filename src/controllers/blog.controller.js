@@ -49,6 +49,10 @@ module.exports.BlogCategory = {
     }
 }
 
+//Ornek URL query;
+// http://127.0.0.1:8000/blog/posts?search[title]=test&filter[published]=1&sort[createdAt]=asc
+// URL den gönderilen bu query i req.query diyerek alabiliriz
+
 module.exports.BlogPost = {
     list: async(req,res)=>{
 
@@ -56,7 +60,7 @@ module.exports.BlogPost = {
         //http://127.0.0.1:8000/blog/posts?search[title]=test&filter[published]=1&sort[createdAt]=asc
 
         // FILTERING // URL?filter[key1]=value1&filter[key2]=value2
-        const filter = req.query?.filter || {} // filterden veri gelmezse boş obje olarak kalsın
+        const filter = req.query?.filter || {} // URL query den filter ı al, filterden veri gelmezse boş obje olarak kalsın
 
         //SEARCHING
         // URL?search[key1]=value1&search[key2]=value2

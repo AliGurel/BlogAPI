@@ -20,23 +20,24 @@ module.exports = async () => {
     // }
 
     /* Exampla Data */
-    // Deleted All Records:
+    // Deleted All Records // Veritabanındaki tüm verileri siliniyor:
     await User.deleteMany().then(() => console.log(' - User Deleted All'))
     await BlogCategory.deleteMany().then(() => console.log(' - BlogCategory Deleted All'))
     await BlogPost.deleteMany().then(() => console.log(' - BlogPost Deleted All'))
 
-    // Example User:
+    // Example User: Örnek bir user hesabı ekleneiyor; test işlemleri için
     const user = await User.create({
         email: "test@test.com",
         password: "12345678",
         firstName: "Test",
         lastName: "Test"
     })
-    // Example Category:
+
+    // Example Category: Örnek bir Blog Kategory oluşturuluyor
     const blogCategory = await BlogCategory.create({
         name: 'Test Category'
     })
-    // Example Posts:
+    // Example Posts: Örnek 200 adet post oluşturuluyor
     for (let key in [...Array(200)]) {
         await BlogPost.create({
             userId: user._id,
