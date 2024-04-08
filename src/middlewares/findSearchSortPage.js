@@ -49,7 +49,8 @@ module.exports = (req, res, next) => {
     /* FILTERING & SEARCHING & SORTING & PAGINATION */
 
     // const data = await BlogPost.find({ ...filter, ...search }).sort(sort).skip(skip).limit(limit)
-
+    
+    // Model isimleri sürekli değişeceği için fonksiyon kullandık ve model adını parametre olarak aldık
     res.getModelList = async function (Model,populate = null) {
         return await Model.find({ ...filter, ...search }).sort(sort).skip(skip).limit(limit).populate(populate)
     }

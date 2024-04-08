@@ -7,6 +7,8 @@
 require("express-async-errors")
 const {BlogCategory, BlogPost} = require('../models/blog.model')
 
+//NOT: findsearchSortPAge.js burda import edilmedi, çünkü o bir middleware ve middle ware ler index.js sayfasında çalıştırıldığı için tüm route larda controller larda çağrılabilri oluyor otomatikmen
+
 module.exports.BlogCategory = {
     list: async(req,res)=>{
         // const data = await BlogCategory.find()
@@ -69,6 +71,11 @@ module.exports.BlogPost = {
         //console.log(search)
         // URL query lerde true/false yazılmaz 1/0 yazılır
 
+        //search yaparken, aranan ifadeye eşit olan değil, aranan ifade içinde geçen sonuçları döndürmesi için regex kullanıyoruz.
+        //Normalde search yapısı bir filter dır ve sonuçları obje formatından döndürür
+        //regex kullanmadan gelen sonuçlar aşağıdaki { title: 'test', content: 'test' } kısmıdır.
+        //bize lazım olan dönüş şekli { title: { $regex: 'test' }, content: { $regex: 'test' } } gibidir
+        //bu nedenle bir for in döngüsünden faydalanıyoruz
         //? { title: 'test', content: 'test' } -> { title: { $regex: 'test' }, content: { $regex: 'test' } }
         for (let key in search) {
             search[key] = { $regex: search[key], $options: 'i'} // büyük hafr küçük harf duyarlı değil olur options i ile beraber
@@ -84,7 +91,7 @@ module.exports.BlogPost = {
         //PAGINATION
         // URL?page=3&limit=10
 
-        let limit = Number(req.query?.limit)
+        let limit = Number(req.query?.limit)//url den limit için gelen veriyi sayı formatına çevir
         limit = limit > 0 ? limit : Number(process.env.PAGE_SIZE || 20) // lmit 0 dan büyükse kabul et, değilse 20 olark default değer ata // env deki değerler her zaman str dir, o ndenle number a çevirdik
         console.log('limit', limit)
 
@@ -100,12 +107,12 @@ module.exports.BlogPost = {
         skip = skip > 0 ? skip : (page * limit)
         console.log('skip', skip)
 
-
+        //page ve skip birbirinin yerine kullanılabilir dedi
         /* FILTERING & SEARCHING & SORTING & PAGINATION */
-
+        // find(), ın içinde filter ile beraber search i de almak için destructuring kullandı
         // const data = await BlogPost.find({ ...filter, ...search }).sort(sort).skip(skip).limit(limit) // yukarıda filtrelenen sonucu gösteriyor
 
-        const data = await res.getModelList(BlogPost, 'blogCategoryId')
+        const data = await res.getModelList(BlogPost, 'blogCategoryId') //blogCategoryId, populate için yazıldı
 
         res.status(200).send({
             error:false,
